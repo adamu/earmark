@@ -103,7 +103,7 @@ defmodule Earmark.Mixfile do
       main: "readme",
       source_ref: "v#{@version}",
       source_url: @url,
-      extras: ["README.md", "RELEASE.md"]
+      extras: ["README.md", "RELEASE.md", "LICENSE"]
     ]
 
     config_file = System.tmp_dir!() <> "config.exs"
