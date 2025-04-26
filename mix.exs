@@ -99,11 +99,19 @@ defmodule Earmark.Mixfile do
       raise "cannot build docs because escript for ex_doc is not installed, make sure to \n#{@prerequisites}"
     end
 
-    args = ["Earmark", @version, Mix.Project.compile_path()]
-    opts = ~w[--main Earmark --source-ref v#{@version} --source-url #{@url}]
+    config = [
+      main: "readme",
+      source_ref: "v#{@version}",
+      source_url: @url,
+      extras: ["README.md", "RELEASE.md"]
+    ]
 
-    Mix.shell().info("Running: #{ex_doc} #{inspect(args ++ opts)}")
-    System.cmd(ex_doc, args ++ opts)
+    File.mkdir("doc")
+    File.write!("doc/config.exs", inspect(config))
+
+    args = ["Earmark", @version, Mix.Project.compile_path(), "--config", "doc/config.exs"]
+    Mix.shell().info("Running: #{ex_doc} #{inspect(args)}")
+    System.cmd(ex_doc, args)
     Mix.shell().info("Docs built successfully")
   end
 end
