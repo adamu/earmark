@@ -106,10 +106,10 @@ defmodule Earmark.Mixfile do
       extras: ["README.md", "RELEASE.md"]
     ]
 
-    File.mkdir("doc")
-    File.write!("doc/config.exs", inspect(config))
+    config_file = System.tmp_dir!() <> "config.exs"
+    File.write!(config_file, inspect(config))
 
-    args = ["Earmark", @version, Mix.Project.compile_path(), "--config", "doc/config.exs"]
+    args = ["Earmark", @version, Mix.Project.compile_path(), "--config", config_file]
     Mix.shell().info("Running: #{ex_doc} #{inspect(args)}")
     System.cmd(ex_doc, args)
     Mix.shell().info("Docs built successfully")
